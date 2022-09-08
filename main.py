@@ -1,4 +1,3 @@
-
 def somme_1(liste_parametre: list[int]) -> int:
     """
         Fonction sommant les élements d'une liste_parametre à l'aide d'une boucle for basé sur les indices
@@ -123,7 +122,8 @@ def moy_sup(liste_parametre: list[int], e: int) -> float:
     :param liste_parametre: (list[int]) liste_parametre dont on établira la moyenne des éléments supérieurs à e
     :return: (float) moyenne des éléments supérieurs à e.
     """
-
+    if len(liste_parametre) == 0:
+        return 0
     somme = 0
     for elt_liste_parametre in liste_parametre:
         if elt_liste_parametre > e:
@@ -143,7 +143,7 @@ def val_max(liste_parametre: list[int]) -> int:
 
     for i in range(1, len(liste_parametre)):
         if liste_parametre[i] > max_liste_parametre:
-            max_liste_parametre = list[i]
+            max_liste_parametre = liste_parametre[i]
     return max_liste_parametre
 
 
@@ -155,12 +155,14 @@ def ind_max(liste_parametre: list[int]) -> int:
     """
     if len(liste_parametre) == 0:
         return -1
+    elif len(liste_parametre) == 1:
+        return liste_parametre[0]
 
     max_liste_parametre = liste_parametre[0]
     i_max = -1
     for i in range(1, len(liste_parametre)):
         if liste_parametre[i] > max_liste_parametre:
-            max_liste_parametre = list[i]
+            max_liste_parametre = liste_parametre[i]
             i_max = i
     return i_max
 
@@ -217,8 +219,12 @@ def est_triee_1(liste_parametre: list[int]) -> bool:
     :param liste_parametre: (list[int]) liste dont on testera si elle est triée
     :return: (bool) triée ?
     """
+    if len(liste_parametre) == 0:
+        return True
+    elif len(liste_parametre) == 1:
+        return True
     for i in range(1, len(liste_parametre)):
-        if liste_parametre[i-1] > liste_parametre[i]:
+        if liste_parametre[i - 1] > liste_parametre[i]:
             return False
     return True
 
@@ -229,13 +235,20 @@ def est_triee_2(liste_parametre: list[int]) -> bool:
     :param liste_parametre: (list[int]) liste dont on testera si elle est triée
     :return: (bool) variable répondant à la question: est triée ?
     """
+    if len(liste_parametre) == 0:
+        return True
+    elif len(liste_parametre) == 1:
+        return True
+
     flag_est_triee = True
     i = 1
     while i < len(liste_parametre) and flag_est_triee:
         if liste_parametre[i - 1] > liste_parametre[i]:
             flag_est_triee = False
+        i += 1
 
     return flag_est_triee
+
 
 # La meilleure fonction est la première si l'on utilise un return direct comme ici sinon c'est la deuxième.
 
@@ -247,13 +260,13 @@ def position_tri(liste_triee: list[int], e: int) -> int:
     :param e: (int) element dont on cherchera la position dans la liste_parametre
     :return: (int) position de l'élément e
     """
-    m = len(liste_triee) // 2
+    m = (len(liste_triee)+1) // 2
     if liste_triee[m] == e:
         return m
-    elif liste_triee[m] < e:
-        return position_tri(liste_triee[:m-1], e)
+    elif liste_triee[m] > e:
+        return position_tri(liste_triee[:m], e)
     else:
-        return m + position_tri(liste_triee[m+1: len(liste_triee)], e)
+        return m + position_tri(liste_triee[m: len(liste_triee)], e)
 
 
 def a_repetition(liste_parametre: list[int]) -> int:
@@ -266,9 +279,93 @@ def a_repetition(liste_parametre: list[int]) -> int:
     i = 0
     while i < len(liste_parametre):
         if liste_parametre[i] not in liste_T:
-            liste_T.append(i)
+            liste_T.append(liste_parametre[i])
         else:
-            return False
+            return True
+        i += 1
 
-    return True
+    return False
 
+
+def testeur_de_fonction_sur_listes_1_arg(funct, jeu_de_tests, triee=False):
+    """
+    Fonction permettant de tester la fonction message_imc()
+    :return: void
+    """
+    if not triee:
+        for e in jeu_de_tests:
+            print(f"{funct.__name__}({e}) = {funct(e)}")
+        print("\n")
+    else:
+        for e in jeu_de_tests:
+            e_triee = sorted(e)
+            print(f"{funct.__name__}({e_triee}) = {funct(e_triee)}")
+        print("\n")
+
+
+def testeur_de_fonction_sur_listes_2_arg(funct, jeu_de_tests, triee=False):
+    """
+    Fonction permettant de tester la fonction message_imc()
+    :return: void
+    """
+    if not triee:
+        for e in jeu_de_tests:
+            print(f"{funct.__name__}({e[0]}, {e[1]}) = {funct(e[0], e[1])}")
+        print("\n")
+    else:
+        for e in jeu_de_tests:
+            e0_triee = sorted(e[0])
+            print(f"{funct.__name__}({e0_triee}, {e[1]}) = {funct(e0_triee, e[1])}")
+    print("\n")
+
+
+JEU_DE_TESTS_1 = [[55, 80, 60, 110, 25],
+                  [-3, 1, 2, -5, 4],
+                  []]
+
+JEU_DE_TESTS_2 = [([55, 80, 60, 110, 25], 1),
+                  ([-3, 1, 2, -5, 4], 1),
+                  ([], 1)]
+
+JEU_DE_TESTS_3 = [([55, 80, 60, 110, 25], 80),
+                  ([-3, 1, 2, -5, 4], 1)]
+
+JEU_DE_TESTS_4 = [[55, 80, 60, 110, 25],
+                  [-3, 1, 2, -5, 4],
+                  [],
+                  [-3, 1, 1, 2, -5, 4],
+                  [55, 25, 60, 110, 25, 25]]
+
+print("\n")
+
+testeur_de_fonction_sur_listes_1_arg(somme_1, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_1_arg(somme_2, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_1_arg(somme_3, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_2_arg(nb_sup_1, JEU_DE_TESTS_2)
+
+testeur_de_fonction_sur_listes_2_arg(nb_sup_2, JEU_DE_TESTS_2)
+
+testeur_de_fonction_sur_listes_2_arg(moy_sup, JEU_DE_TESTS_2)
+
+testeur_de_fonction_sur_listes_1_arg(val_max, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_1_arg(ind_max, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_2_arg(nb_occurence, JEU_DE_TESTS_2)
+
+testeur_de_fonction_sur_listes_1_arg(est_triee_1, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_1_arg(est_triee_1, JEU_DE_TESTS_1, triee=True)
+
+testeur_de_fonction_sur_listes_1_arg(est_triee_2, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_1_arg(est_triee_2, JEU_DE_TESTS_1, triee=True)
+
+testeur_de_fonction_sur_listes_2_arg(position_tri, JEU_DE_TESTS_3, triee=True)
+
+testeur_de_fonction_sur_listes_1_arg(a_repetition, JEU_DE_TESTS_1)
+
+testeur_de_fonction_sur_listes_1_arg(a_repetition, JEU_DE_TESTS_4)
