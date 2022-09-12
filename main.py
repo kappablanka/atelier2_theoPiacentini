@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+
+
 def somme_1(liste_parametre: list[int]) -> int:
     """
         Fonction sommant les élements d'une liste_parametre à l'aide d'une boucle for basé sur les indices
@@ -319,9 +322,7 @@ def testeur_de_fonction_sur_listes_2_arg(funct, jeu_de_tests, triee=False):
     print("\n")
 
 
-JEU_DE_TESTS_1 = [[55, 80, 60, 110, 25],
-                  [-3, 1, 2, -5, 4],
-                  []]
+JEU_DE_TESTS_1 = [[-3, 1, 2, -5, 4]]
 
 JEU_DE_TESTS_2 = [([55, 80, 60, 110, 25], 1),
                   ([-3, 1, 2, -5, 4], 1),
@@ -335,6 +336,9 @@ JEU_DE_TESTS_4 = [[55, 80, 60, 110, 25],
                   [],
                   [-3, 1, 1, 2, -5, 4],
                   [55, 25, 60, 110, 25, 25]]
+
+JEU_DE_TESTS_5 = [[1, 2, 3, 4, 5],
+                  [5, 5, 5, 5, 4]]
 
 print("\n")
 
@@ -377,7 +381,7 @@ def separer(liste_parametre: list) -> list:
     :param liste_parametre: list à triée
     :return: liste triée
     """
-    lsep = [0 for i in range(len(liste_parametre))]
+    lsep = [0] * len(liste_parametre)
     i = 0
     j = len(liste_parametre) - 1
     for e in liste_parametre:
@@ -392,9 +396,139 @@ def separer(liste_parametre: list) -> list:
 
 testeur_de_fonction_sur_listes_1_arg(separer, JEU_DE_TESTS_1)
 
-## Par
+# Partie 2
 
 
+def histo(liste_f: list[int]):
+    """
+    Fonction comptabilisant le nombre d'apparitions de chaque valeur de la liste f passé en paramètre
+    :param liste_f: liste d'int passé en paramètre
+    :return: retourne l'histogramme de la liste f
+    """
+    liste_h = [0] * (max(liste_f)+1)
+    for e in liste_f:
+        liste_h[e] += 1
+    return liste_h
+
+
+testeur_de_fonction_sur_listes_1_arg(histo, JEU_DE_TESTS_5)
+
+
+def est_injective(liste_f: list[int]) -> bool:
+    """
+    Fonction vérifiant si la fonction représentée par la liste f est injective
+    :param liste_f: liste passée en paramètre représentant une fonction
+    :return: booléen donnant la réponse à la question est injective ?
+    """
+    for e in histo(liste_f):
+        if e > 1:
+            return False
+    return True
+
+
+testeur_de_fonction_sur_listes_1_arg(est_injective, JEU_DE_TESTS_5)
+
+
+def est_surjective(liste_f: list[int]) -> bool:
+    """
+    Fonction vérifiant si la fonction représentée par la liste f est surjective
+    :param liste_f: liste passée en paramètre représentant une fonction
+    :return: booléen donnant la réponse à la question est injective ?
+    """
+    for e in histo(liste_f):
+        if e < 1:
+            return False
+    return True
+
+
+testeur_de_fonction_sur_listes_1_arg(est_surjective, JEU_DE_TESTS_5)
+
+
+def est_bijective(liste_f: list[int]) -> bool:
+    """
+    Fonction vérifiant si la fonction représentée par la liste f est bijective
+    :param liste_f: liste passée en paramètre représentant une fonction
+    :return: booléen donnant la réponse à la question est injective ?
+    """
+    for e in histo(liste_f):
+        if e != 1:
+            return False
+    return True
+
+
+testeur_de_fonction_sur_listes_1_arg(est_bijective, JEU_DE_TESTS_5)
+
+
+def affiche_histo(liste_f: list[int]):
+    """
+    Fonction affichant une représentation graphique de l'histogramme associé à la liste
+    :param liste_f: liste passée en paramètre représentant une fonction
+    :return: void
+    """
+    liste_h = histo(liste_f)
+    max_occ = max(liste_h)
+    print(f"liste_f = {liste_f}")
+    print("histogramme : ")
+    for i in range(max_occ):
+        for e in liste_h:
+            if e >= max_occ:
+                print("| #", end='')
+            else:
+                print("|  ", end='')
+        max_occ -= 1
+
+        print("|")
+
+    print("")
+    for i in range(max(liste_f)+1):
+        print(f"| {i}", end='')
+    print("|")
+    print("\n")
+
+
+testeur_de_fonction_sur_listes_1_arg(affiche_histo, JEU_DE_TESTS_5)
+
+
+def affiche_histo_plt(liste_f: list[int]):
+    """
+    Fonction affichant une représentation graphique de l'histogramme associé à la liste à l'aide de la librairie
+    matplotlib.pyplot
+    :param liste_f: liste passée en paramètre représentant une fonction
+    :return: void
+    """
+    liste_h = histo(liste_f)
+    max_occ = max(liste_h)
+    plt.hist(liste_f, bins=max_occ)
+    plt.title("Histogramme")
+    plt.show()
+
+
+def agencement(nb_emlacement: int, l_objets: list[int]) -> list[list[int]]:
+    """
+    Fonction permettant d'agencer les objets de plusieurs vitrines de manière à ce qu'aucun objet du même type ne soit
+    dans le même vitrine, si cela est possible
+    :param nb_emlacement: nombre de vitrines disponible
+    :param l_objets: liste représantant tous les objets à afficher
+    :return: agencement possible des objets
+    """
+    vitrine = []
+    histogramme_l_objets = histo(l_objets)
+    if max(histogramme_l_objets) > nb_emlacement:
+        return[[0]]
+    organisations_vitrines = []
+    while histogramme_l_objets != [0] * len(histogramme_l_objets):
+        vitrine = []
+        for i in range(len(histogramme_l_objets)):
+            if histogramme_l_objets[i] > 0:
+                vitrine.append(i)
+                histogramme_l_objets[i] -= 1
+
+        organisations_vitrines.append(vitrine)
+    return organisations_vitrines
+
+
+JEU_DE_TESTS_6 = [(4, [1, 2, 2, 3, 4, 5, 5])]
+testeur_de_fonction_sur_listes_2_arg(agencement, JEU_DE_TESTS_6)
 
 
 
