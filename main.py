@@ -369,3 +369,32 @@ testeur_de_fonction_sur_listes_2_arg(position_tri, JEU_DE_TESTS_3, triee=True)
 testeur_de_fonction_sur_listes_1_arg(a_repetition, JEU_DE_TESTS_1)
 
 testeur_de_fonction_sur_listes_1_arg(a_repetition, JEU_DE_TESTS_4)
+
+
+def separer(liste_parametre: list) -> list:
+    """
+    Fonction retournant une liste triée par (nombres négatifs à gauche, zéro au milieu, positifs à droite
+    :param liste_parametre: list à triée
+    :return: liste triée
+    """
+    lsep = [0 for i in range(len(liste_parametre))]
+    i = 0
+    j = len(liste_parametre) - 1
+    for e in liste_parametre:
+        if liste_parametre[i] < 0:
+            lsep[i] = e
+            i += 1
+        else:
+            lsep[j] = e
+            j -= 1
+    return lsep
+
+
+testeur_de_fonction_sur_listes_1_arg(separer, JEU_DE_TESTS_1)
+
+## Par
+
+
+
+
+
