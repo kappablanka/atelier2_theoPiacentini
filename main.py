@@ -263,7 +263,7 @@ def position_tri(liste_triee: list[int], e: int) -> int:
     :param e: (int) element dont on cherchera la position dans la liste_parametre
     :return: (int) position de l'élément e
     """
-    m = (len(liste_triee)+1) // 2
+    m = (len(liste_triee) + 1) // 2
     if liste_triee[m] == e:
         return m
     elif liste_triee[m] > e:
@@ -396,6 +396,7 @@ def separer(liste_parametre: list) -> list:
 
 testeur_de_fonction_sur_listes_1_arg(separer, JEU_DE_TESTS_1)
 
+
 # Partie 2
 
 
@@ -405,7 +406,7 @@ def histo(liste_f: list[int]):
     :param liste_f: liste d'int passé en paramètre
     :return: retourne l'histogramme de la liste f
     """
-    liste_h = [0] * (max(liste_f)+1)
+    liste_h = [0] * (max(liste_f) + 1)
     for e in liste_f:
         liste_h[e] += 1
     return liste_h
@@ -480,7 +481,7 @@ def affiche_histo(liste_f: list[int]):
         print("|")
 
     print("")
-    for i in range(max(liste_f)+1):
+    for i in range(max(liste_f) + 1):
         print(f"| {i}", end='')
     print("|")
     print("\n")
@@ -511,10 +512,9 @@ def agencement(nb_emlacement: int, l_objets: list[int]) -> list[list[int]]:
     :param l_objets: liste représantant tous les objets à afficher
     :return: agencement possible des objets
     """
-    vitrine = []
     histogramme_l_objets = histo(l_objets)
     if max(histogramme_l_objets) > nb_emlacement:
-        return[[0]]
+        return [[0]]
     organisations_vitrines = []
     while histogramme_l_objets != [0] * len(histogramme_l_objets):
         vitrine = []
@@ -531,4 +531,197 @@ JEU_DE_TESTS_6 = [(4, [1, 2, 2, 3, 4, 5, 5])]
 testeur_de_fonction_sur_listes_2_arg(agencement, JEU_DE_TESTS_6)
 
 
+def test_present(present: callable):
+    """
+    Fonction testant les fonctions present
+    :param present: fonction que l'on teste
+    :type present: callable
+    :return:
+    :rtype:
+    """
+    if not present([], 0):
+        print("SUCCES : test liste vide")
+    else:
+        print("ECHEC : test liste vide")
 
+    if present([1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1):
+        print("SUCCES : test debut")
+    else:
+        print("ECHEC : test debut")
+
+    if present([0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 1):
+        print("SUCCES : test fin")
+    else:
+        print("ECHEC : test fin")
+
+    if present([0, 0, 0, 0, 1, 0, 0, 0, 0, 0], 1):
+        print("SUCCES : test milieu")
+    else:
+        print("ECHEC : test milieu")
+
+    if not present([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1):
+        print("SUCCES : test absence")
+    else:
+        print("ECHEC : test absence")
+
+    print("")
+
+
+# VERSION 1
+def present1(L, e):
+    for i in range(0, len(L), 1):
+        if (L[i] == e):
+            return (True)
+        else:
+            return (False)
+    return (False)
+
+
+# VERSION 2
+def present2(L, e):
+    b = True
+    for i in range(0, len(L), 1):
+        if (L[i] == e):
+            b = True
+        else:
+            b = False
+    return b
+
+
+# VERSION 3
+def present3(L, e):
+    b = True
+    for i in range(0, len(L), 1):
+        return (L[i] == e)
+
+
+# VERSION 4
+def present4(L, e):
+    b = False
+    i = 0
+    while i < len(L) and b:
+        if L[i] == e:
+            b = True
+    return b
+
+
+print("test present 1")
+test_present(present1)
+
+print("test present 2")
+test_present(present2)
+
+print("test present 3")
+test_present(present3)
+
+print("test present 4")
+test_present(present4)
+
+
+# version 1:
+# retourne faux si le premier élément n'est pas bon
+
+# version 2:
+# si le dernier n'est pas le même le résultat est faux
+
+# version 3:
+# Je ne sais même pas quoi dire
+
+# version 4:
+# On ne rentre pas dans la boucle !
+
+def test_pos(pos: callable):
+    """
+    Fonction testant les fonctions present
+    :param pos: fonction que l'on teste
+    :type pos: callable
+    :return:
+    :rtype:
+    """
+    if not pos([], 0):
+        print("SUCCES : test liste vide")
+    else:
+        print("ECHEC : test liste vide")
+
+    if pos([1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1) == 0:
+        print("SUCCES : test debut")
+    else:
+        print("ECHEC : test debut")
+
+    if pos([0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 1) == 9:
+        print("SUCCES : test fin")
+    else:
+        print("ECHEC : test fin")
+
+    if pos([0, 0, 0, 0, 1, 0, 0, 0, 0, 0], 1)  == 4:
+        print("SUCCES : test milieu")
+    else:
+        print("ECHEC : test milieu")
+
+    if not pos([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1):
+        print("SUCCES : test absence")
+    else:
+        print("ECHEC : test absence")
+
+    print("")
+
+
+#VERSION 1
+def pos1(L, e) :
+    Lres = list(L)
+    for i in range (0, len(L), 1) :
+        if (L[i] == e) :
+            Lres += [i]
+    return Lres
+
+# VERSION 2
+def pos2(L, e) :
+    Lres = list(L)
+    for i in range (0, len(L), 1) :
+        if (L[i] == e) :
+            Lres[i] = i
+    return Lres
+
+# VERSION 3
+def pos3(L, e) :
+    nb= L.count(e)
+    Lres = [0]*nb
+    for i in range (0, len(L), 1) :
+        if (L[i] == e) :
+            Lres.append(i)
+    return Lres
+
+# VERSION 4
+def pos4(L, e) :
+    nb= L.count(e)
+    Lres = [0]*nb
+    j=0
+    for i in range (0, len(L), 1) :
+        if (L[i] == e) :
+            Lres[j]= i
+    return Lres
+
+
+print("test pos 1")
+test_present(present1)
+
+print("test pos 2")
+test_present(present2)
+
+print("test pos 3")
+test_present(present3)
+
+print("test pos 4")
+test_present(present4)
+
+# version 1:
+# itére au lieu de définir
+
+# version 2:
+# retourne une liste
+
+# version 3:
+# retourne une liste
+
+# version 4:
+# retourne un liste
