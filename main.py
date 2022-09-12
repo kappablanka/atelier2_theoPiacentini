@@ -643,17 +643,17 @@ def test_pos(pos: callable):
     else:
         print("ECHEC : test liste vide")
 
-    if pos([1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1) == 0:
+    if pos([1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1) == [0]:
         print("SUCCES : test debut")
     else:
         print("ECHEC : test debut")
 
-    if pos([0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 1) == 9:
+    if pos([0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 1) == [9]:
         print("SUCCES : test fin")
     else:
         print("ECHEC : test fin")
 
-    if pos([0, 0, 0, 0, 1, 0, 0, 0, 0, 0], 1)  == 4:
+    if pos([0, 0, 0, 0, 1, 0, 0, 0, 0, 0], 1) == [4]:
         print("SUCCES : test milieu")
     else:
         print("ECHEC : test milieu")
@@ -715,13 +715,13 @@ print("test pos 4")
 test_present(present4)
 
 # version 1:
-# itére au lieu de définir
+# definition Lres fausse
 
 # version 2:
-# retourne une liste
+# definition de Lres fausse
 
 # version 3:
-# retourne une liste
+# mauvais append
 
 # version 4:
-# retourne un liste
+# j ne bouge pas
