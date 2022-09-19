@@ -527,7 +527,7 @@ def agencement(nb_emlacement: int, l_objets: list[int]) -> list[list[int]]:
     return organisations_vitrines
 
 
-JEU_DE_TESTS_6 = [(4, [1, 2, 2, 3, 4, 5, 5])]
+JEU_DE_TESTS_6 = [(4, [1, 3, 4, 5, 2, 2, 0, 0])]
 testeur_de_fonction_sur_listes_2_arg(agencement, JEU_DE_TESTS_6)
 
 
@@ -725,3 +725,5 @@ test_present(present4)
 
 # version 4:
 # j ne bouge pas
+
+
